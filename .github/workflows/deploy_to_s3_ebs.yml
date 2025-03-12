@@ -42,7 +42,7 @@ jobs:
     - name: Zip the application
       run: |
         mkdir -p deployment
-        cp -r dist/* deployment/  # Copy the built React app
+        cp -r server/* deployment/  # Copy the built React app
         cd deployment
         zip -r ../${{ env.APP_NAME }}.zip .
 
