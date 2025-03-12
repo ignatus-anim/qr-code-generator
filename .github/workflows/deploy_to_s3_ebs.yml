@@ -1,4 +1,4 @@
-name: Build and Deploy React App to S3
+name: Build and Deploy React App to S3 and Elastic Beanstalk
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     # Define environment variables
     env:
       APP_NAME: "qr-react-app"        # Elastic Beanstalk application name
-    #  ENV_NAME: "testing"          # Elastic Beanstalk environment name
+      ENV_NAME: "Qr-react-app-env"          # Elastic Beanstalk environment name
       S3_BUCKET: "qr-react-app-bk"  # S3 bucket name
       AWS_REGION: "us-west-1"  # AWS region
 
@@ -60,14 +60,14 @@ jobs:
         aws s3 cp ${{ env.APP_NAME }}.zip s3://${{ env.S3_BUCKET }}/app-${{ github.sha }}.zip
         echo "S3 URL: s3://${{ env.S3_BUCKET }}/app-${{ github.sha }}.zip"
 
-    # # Step 7: Update Elastic Beanstalk environment
-    # - name: Update Elastic Beanstalk
-    #   run: |
-    #     aws elasticbeanstalk create-application-version \
-    #       --application-name "${{ env.APP_NAME }}" \
-    #       --version-label "v${{ github.sha }}" \
-    #       --source-bundle S3Bucket="${{ env.S3_BUCKET }}",S3Key="react-app-${{ github.sha }}.zip"
+    # Step 7: Update Elastic Beanstalk environment
+    - name: Update Elastic Beanstalk
+      run: |
+        aws elasticbeanstalk create-application-version \
+          --application-name "${{ env.APP_NAME }}" \
+          --version-label "v${{ github.sha }}" \
+          --source-bundle S3Bucket="${{ env.S3_BUCKET }}",S3Key="react-app-${{ github.sha }}.zip"
         
-    #     aws elasticbeanstalk update-environment \
-    #       --environment-name "${{ env.ENV_NAME }}" \
-    #       --version-label "v${{ github.sha }}"
+        aws elasticbeanstalk update-environment \
+          --environment-name "${{ env.ENV_NAME }}" \
+          --version-label "v${{ github.sha }}"
