@@ -41,7 +41,6 @@ jobs:
     # Step 4: Zip the application
     - name: Zip the application
       run: |
-        cd frontend
         mkdir -p deployment
         cp -r build/* deployment/  # Copy the built React app
         cd deployment
