@@ -66,9 +66,8 @@ jobs:
         aws elasticbeanstalk create-application-version \
           --application-name "${{ env.APP_NAME }}" \
           --version-label "v${{ github.sha }}" \
-          --source-bundle S3Bucket="${{ env.S3_BUCKET }}",S3Key="react-app-${{ github.sha }}.zip"
+          --source-bundle S3Bucket="${{ env.S3_BUCKET }}",S3Key="app-${{ github.sha }}.zip"
         
         aws elasticbeanstalk update-environment \
           --environment-name "${{ env.ENV_NAME }}" \
           --version-label "v${{ github.sha }}"
-          
