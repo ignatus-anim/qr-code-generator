@@ -71,3 +71,4 @@ jobs:
         aws elasticbeanstalk update-environment \
           --environment-name "${{ env.ENV_NAME }}" \
           --version-label "v${{ github.sha }}"
+          
