@@ -1,0 +1,39 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    # Set the default working directory for all steps to frontend
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22.11.0"
+
+      # Step 3: Install dependencies and build the React app
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build
+
+      # Step 4: Run tests
+      - name: Run Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
